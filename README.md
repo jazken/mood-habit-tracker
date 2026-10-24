@@ -6,7 +6,7 @@ A small practice page for [AI Newbie](https://www.ainewbie.org)'s Newbie to Tech
 
 You tap today's mood. You tap two or three habits. That is the whole page.
 
-You are on `step-3`. This branch is the practice-conflict setup.
+You are on `step-4`. The README lists the GitHub Pages clicks. There is no build.
 
 ## Work with a partner
 
@@ -58,6 +58,31 @@ Merge, then fix the conflict:
 2. Open Partner B's pull request. Click **Resolve conflicts**.
 3. Fix the title and the habits list together. Click **Mark as resolved**, then **Commit merge**.
 4. Click **Merge pull request**.
+
+## Put your page on the internet
+
+This publishes the page with GitHub Pages. The source is the **main** branch and the folder **/ (root)**. There is no Actions build. Do not add a workflow file.
+
+The live page shows whatever is on `main`. On the class repo, `main` is the starter. On your fork, `main` changes after you merge a pull request.
+
+You need to own the repo. On your fork, you do.
+
+1. On GitHub, open your fork.
+2. Click **Settings**. If you cannot see **Settings**, open the menu, then click **Settings**.
+3. In the left sidebar, under "Code, planning, and automation", click **Pages**.
+4. Under "Build and deployment", next to "Source", choose **Deploy from a branch**. Do not choose **GitHub Actions**.
+5. If a button says **Configure** and opens a workflow file, close that file. Come back here. Choose **Deploy from a branch**.
+6. Still under "Build and deployment", choose branch **main** and folder **/ (root)**.
+7. Click **Save**.
+8. Wait a minute. Refresh this page. GitHub shows a link.
+
+Your link looks like `https://YOUR-NAME.github.io/mood-habit-tracker/`.
+
+The class repo's link is <https://jazken.github.io/mood-habit-tracker/>.
+
+Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+
+Go deeper: <https://pages.github.com/>
 
 ## Open it
 
