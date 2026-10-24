@@ -112,6 +112,12 @@
 
     .hint { margin: 0 0 0.8rem; color: var(--muted); }
 
+    .partner-note {
+      margin: 0 0 0.8rem;
+      color: var(--sage);
+      font-size: 0.95rem;
+    }
+
     .choices { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     .choice {
@@ -245,7 +251,7 @@
       </div>
       <p class="lede">Tap how today feels, and the habits you did.</p>
       <p class="today" id="today">Today</p>
-      <p class="flag">Step 2. A chart of the last 7 days.</p>
+      <p class="flag">Step 3. Partner practice is in the README.</p>
     </header>
 
     <main id="check-in">
@@ -263,7 +269,15 @@
       <section aria-labelledby="habit-heading">
         <h2 id="habit-heading">Habits</h2>
         <p class="hint">Pick any you did today. Tap again to undo.</p>
-        <!-- Habits list: Drink water, Take a walk, Read a page. -->
+        <p class="partner-note">Partner exercise: you both change these three names, in different ways. The steps are in the README. You fix the conflict on GitHub's website.</p>
+        <!--
+          PARTNER EXERCISE. This is the habits list.
+          Both partners change the three names on the buttons below.
+          Change the words people see, such as "Drink water".
+          Leave data-habit and the tags in place if you can.
+          This list is for the Step 4 lesson, on GitHub's website.
+          The Step 3 lesson is the solo commit. That is a different exercise.
+        -->
         <div class="choices" id="habit-list" role="group" aria-label="Today's habits">
           <button type="button" class="choice" data-habit="water" aria-pressed="false">Drink water</button>
           <button type="button" class="choice" data-habit="walk" aria-pressed="false">Take a walk</button>

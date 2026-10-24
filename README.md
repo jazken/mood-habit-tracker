@@ -1,10 +1,63 @@
 # Daily Mood and Habit Tracker
 
+> **Partner exercise:** both of you change the title on the line above, in different ways. The steps are under "Work with a partner".
+
 A small practice page for [AI Newbie](https://www.ainewbie.org)'s Newbie to Tech track.
 
 You tap today's mood. You tap two or three habits. That is the whole page.
 
-You are on `step-2`. Check-ins are saved, and the last 7 days show as a chart.
+You are on `step-3`. This branch is the practice-conflict setup.
+
+## Work with a partner
+
+This is the partner exercise from the Step 4 lesson, "Git part 2: work together". You do it on GitHub's website.
+
+This is not the Step 3 lesson. The Step 3 lesson, "Git part 1: save points you control", is solo. You make a commit. You can try a branch. Do that lesson first if you have not.
+
+Lesson for the Step 3 solo exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+
+Lesson for the Step 4 partner exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+
+You need a partner, and a free GitHub account each: <https://github.com>
+
+1. **Partner A** forks this repo. That fork is the one shared copy. Then Partner A invites Partner B: **Settings → Collaborators**. Partner B works in that same fork, not a second fork.
+2. Switch the branch menu to `step-3`. **Each of you** makes your own branch from `step-3`. Call them `a-title` and `b-title`.
+3. **Each of you** edits the **same first line** of this README on your own branch, in different ways. Commit.
+4. **Each of you** edits the habits list in `index.html`. The habits list is the three buttons under **Habits**: `Drink water`, `Take a walk`, and `Read a page`. Change those names in different ways. Leave the tags in place. Commit.
+5. **Each of you** opens a **pull request** (PR) from your branch into `main`.
+6. **Merge Partner A's PR.**
+7. Partner B's PR now says it has a **conflict**. Click **Resolve conflicts** and fix it **together**: pick one line, or combine them. Do that for the title and for the habits list. Then merge.
+
+**Check you did it:** `main` has one first line that you both agreed on. Both PRs say *Merged*. The habits list is one agreed list.
+
+The pull request into `main` also contains the earlier steps. That is expected. On the conflict screen, keep the words you want. Delete the marker lines (`<<<<<<<`, `=======`, `>>>>>>>`).
+
+### Clicks on GitHub's website
+
+Make a branch:
+
+1. Open the fork. Set the branch menu to `step-3`.
+2. Click the branch menu again. Type `a-title` or `b-title`.
+3. Click **Create branch** from `step-3`.
+
+Edit a file:
+
+1. Open the file on your branch.
+2. Click the pencil (**Edit this file**).
+3. Change your lines. Click **Commit changes**.
+
+Open a pull request:
+
+1. Click **Compare & pull request** if GitHub offers it. Or click **Pull requests**, then **New pull request**.
+2. Set the base to `main` and the compare branch to yours.
+3. Click **Create pull request**.
+
+Merge, then fix the conflict:
+
+1. On Partner A's pull request, click **Merge pull request**, then **Confirm merge**.
+2. Open Partner B's pull request. Click **Resolve conflicts**.
+3. Fix the title and the habits list together. Click **Mark as resolved**, then **Commit merge**.
+4. Click **Merge pull request**.
 
 ## Open it
 
