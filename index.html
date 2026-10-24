@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Mood and Habit Tracker</title>
+  <meta name="description" content="A small practice page. Tap today's mood and a few habits.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle cx='8' cy='8' r='6' fill='%23e0a15a'/></svg>">
+  <style>
+    /* Calm colours and one column. It fits a phone.
+       Buttons are large so a thumb can hit them. */
+    :root {
+      --ink: #24312c;
+      --muted: #4e5b54;
+      --paper: #f3ecdf;
+      --card: #fffdf8;
+      --line: #e4d9c8;
+      --sage: #1e4636;
+      --clay: #9a4e24;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #f8f4ec 0, transparent 28rem),
+        linear-gradient(180deg, var(--paper) 0%, #e6efe8 100%);
+      font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .skip {
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      transform: translateY(-200%);
+      background: var(--sage);
+      color: #fffdf8;
+      padding: 0.5rem 0.8rem;
+      border-radius: 0.5rem;
+    }
+
+    .skip:focus { transform: none; }
+
+    .sheet {
+      max-width: 40rem;
+      margin: 0 auto;
+      padding: max(1.25rem, env(safe-area-inset-top)) 1rem max(2rem, env(safe-area-inset-bottom));
+    }
+
+    .brand {
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    /* A small sun. Decoration only. */
+    .sun {
+      width: 2.75rem;
+      height: 2.75rem;
+      flex: none;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f6e2b8, #e0a15a);
+      box-shadow: 0 0 0 0.45rem rgba(224, 161, 90, 0.18);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 {
+      font-family: Georgia, "Iowan Old Style", Palatino, serif;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0; }
+
+    h2 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+
+    .lede, .today { margin: 0.35rem 0 0; }
+
+    .today { color: var(--muted); }
+
+    .flag {
+      display: inline-block;
+      margin: 0.85rem 0 0;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: #efe4d2;
+      color: var(--sage);
+      font-size: 0.92rem;
+    }
+
+    main { display: grid; gap: 0.85rem; margin-top: 1.1rem; }
+
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 1.15rem;
+      padding: 1.05rem 1.1rem 1.15rem;
+    }
+
+    .hint { margin: 0 0 0.8rem; color: var(--muted); }
+
+    .choices { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .choice {
+      flex: 1 1 8.5rem;
+      min-height: 3rem;
+      padding: 0.7rem 1rem;
+      border: 2px solid #d9d0c2;
+      border-radius: 999px;
+      background: #fffdf8;
+      color: var(--ink);
+      font: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .choice:hover { border-color: var(--sage); }
+
+    .choice:focus-visible {
+      outline: 3px solid var(--clay);
+      outline-offset: 3px;
+    }
+
+    /* Filled button, plus a check mark, so colour is not the only clue. */
+    .choice[aria-pressed="true"] {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: #fffdf8;
+    }
+
+    .tick { display: none; }
+    .choice[aria-pressed="true"] .tick { display: inline; }
+
+    .note {
+      margin: 0;
+      padding: 0.85rem 1rem;
+      border-radius: 0.9rem;
+      background: #f7f1e6;
+      border-left: 4px solid #c4a574;
+    }
+
+    a { color: var(--sage); }
+
+    a:focus-visible {
+      outline: 3px solid var(--clay);
+      outline-offset: 3px;
+    }
+
+    footer { margin-top: 1.25rem; color: var(--muted); font-size: 0.92rem; }
+    footer p { margin: 0.25rem 0; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    Daily Mood and Habit Tracker.
+    Practice page for AI Newbie's Newbie to Tech track.
+    Double-click this file to open it. No install.
+  -->
+  <a class="skip" href="#check-in">Skip to today's check-in</a>
+  <div class="sheet">
+    <header>
+      <div class="brand">
+        <span class="sun" aria-hidden="true"></span>
+        <div>
+          <p class="eyebrow">AI Newbie</p>
+          <h1>Daily Mood and Habit Tracker</h1>
+        </div>
+      </div>
+      <p class="lede">Tap how today feels, and the habits you did.</p>
+      <p class="today" id="today">Today</p>
+      <p class="flag">Starter. Nothing is saved yet.</p>
+    </header>
+
+    <main id="check-in">
+      <section aria-labelledby="mood-heading">
+        <h2 id="mood-heading">How do you feel today?</h2>
+        <p class="hint">Pick one.</p>
+        <div class="choices" role="group" aria-label="Today's mood">
+          <button type="button" class="choice" data-mood="low" aria-pressed="false">Low</button>
+          <button type="button" class="choice" data-mood="okay" aria-pressed="false">Okay</button>
+          <button type="button" class="choice" data-mood="good" aria-pressed="false">Good</button>
+          <button type="button" class="choice" data-mood="great" aria-pressed="false">Great</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="habit-heading">
+        <h2 id="habit-heading">Habits</h2>
+        <p class="hint">Pick any you did today. Tap again to undo.</p>
+        <!-- Habits list: Drink water, Take a walk, Read a page. -->
+        <div class="choices" id="habit-list" role="group" aria-label="Today's habits">
+          <button type="button" class="choice" data-habit="water" aria-pressed="false">Drink water</button>
+          <button type="button" class="choice" data-habit="walk" aria-pressed="false">Take a walk</button>
+          <button type="button" class="choice" data-habit="read" aria-pressed="false">Read a page</button>
+        </div>
+      </section>
+
+      <p class="note" id="save-note">Nothing is saved yet. Refresh the page and these taps are gone.</p>
+    </main>
+
+    <footer>
+      <p>Practice page for <a href="https://www.ainewbie.org">AI Newbie</a>, Newbie to Tech.</p>
+      <p>Copyright 2026 Kenneth Goh / AI Newbie. MIT license.</p>
+    </footer>
+  </div>
+
+  <script>
+    // How this page works:
+    // 1. The buttons are written in the HTML above.
+    // 2. This script only marks the button you tap.
+    // 3. Nothing is saved. Refresh, and the marks are gone.
+    // Saving comes in a later step.
+
+    var todayText = document.getElementById("today");
+    var moodButtons = document.querySelectorAll("[data-mood]");
+    var habitButtons = document.querySelectorAll("[data-habit]");
+
+    // Show today's date in plain words, such as "Saturday, 24 October 2026".
+    todayText.textContent = new Date().toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    // A check mark is added in the script, so the habit names stay easy to read.
+    // aria-pressed tells assistive tools whether a button is on.
+    function addTick(button) {
+      var tick = document.createElement("span");
+      tick.className = "tick";
+      tick.setAttribute("aria-hidden", "true");
+      tick.textContent = " \u2713";
+      button.appendChild(tick);
+    }
+
+    moodButtons.forEach(function (button) {
+      addTick(button);
+      button.addEventListener("click", function () {
+        // Only one mood at a time. Clear the others, then mark this one.
+        moodButtons.forEach(function (other) {
+          other.setAttribute("aria-pressed", "false");
+        });
+        button.setAttribute("aria-pressed", "true");
+      });
+    });
+
+    habitButtons.forEach(function (button) {
+      addTick(button);
+      button.addEventListener("click", function () {
+        // A habit can be on or off. Tap again to turn it off.
+        var on = button.getAttribute("aria-pressed") === "true";
+        button.setAttribute("aria-pressed", on ? "false" : "true");
+      });
+    });
+  </script>
+</body>
+</html>
