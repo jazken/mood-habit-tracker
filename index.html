@@ -220,6 +220,16 @@
 
     .mood-word { font-size: 0.95rem; }
 
+    .coach-note {
+      margin: 0.85rem 0 0;
+      padding: 0.85rem 1rem;
+      border-radius: 0.9rem;
+      background: #f4f7f5;
+      border: 1px dashed #c9d5ce;
+    }
+
+    #coach-button { min-width: 12rem; }
+
     footer { margin-top: 1.25rem; color: var(--muted); font-size: 0.92rem; }
     footer p { margin: 0.25rem 0; }
 
@@ -251,7 +261,7 @@
       </div>
       <p class="lede">Tap how today feels, and the habits you did.</p>
       <p class="today" id="today">Today</p>
-      <p class="flag">Step 4. Publishing steps are in the README.</p>
+      <p class="flag">Step 5. Practice coach. No key and no internet call.</p>
     </header>
 
     <main id="check-in">
@@ -293,6 +303,13 @@
         <ul class="chart" id="week-chart"></ul>
       </section>
 
+      <section aria-labelledby="coach-heading">
+        <h2 id="coach-heading">Weekly coach note</h2>
+        <p class="hint">This is a practice stand-in. It does not contact an AI. It does not use a key. A real summary would need a key later. Never commit a key.</p>
+        <button type="button" class="choice" id="coach-button">Write a practice note</button>
+        <p class="coach-note" id="coach-note" aria-live="polite">Practice coach only. No key. No internet call.</p>
+      </section>
+
       <section aria-labelledby="saved-heading">
         <h2 id="saved-heading">Saved days</h2>
         <p class="hint">These stay after you close the page. They live only in this browser.</p>
@@ -319,6 +336,9 @@
     //    on this computer. It stays after you close the page.
     //    It is not sent online. Clearing this site's data deletes it.
     // 4. The week chart is drawn from those saved days. No library.
+    // 5. The coach note is a placeholder. It only counts saved days.
+    //    It does not use the internet. There is no key in this file.
+    //    A real coach would need a key later. Never commit a key.
 
     var STORAGE_KEY = "mood-habit-tracker";
     var todayText = document.getElementById("today");
@@ -575,6 +595,47 @@
         saveToday();
       });
     });
+
+    // PLACEHOLDER. This is not a key.
+    // A later lesson can connect a real coach. That needs a secret key.
+    // Keep the key outside this repo. Never type it here. Never commit it.
+    // This function does not call the internet.
+    var COACH_PLACEHOLDER = "Practice coach only. No key. No internet call.";
+
+    function writePracticeNote() {
+      var log = loadLog();
+      var checkins = 0;
+      var habitMarks = 0;
+      var moodCounts = {};
+      lastSevenDates().forEach(function (date) {
+        var entry = log[dateKey(date)];
+        if (!entry) return;
+        var habits = entry.habits || [];
+        if (entry.mood || habits.length) checkins += 1;
+        habitMarks += habits.length;
+        if (entry.mood) moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+      });
+      var topMood = "";
+      var topCount = 0;
+      Object.keys(moodCounts).forEach(function (mood) {
+        if (moodCounts[mood] > topCount) {
+          topCount = moodCounts[mood];
+          topMood = mood;
+        }
+      });
+      var text = COACH_PLACEHOLDER + " ";
+      if (!checkins) {
+        text += "No check-ins in the last 7 days yet. Tap a mood first. ";
+      } else {
+        text += "You checked in on " + checkins + " of the last 7 days. ";
+        text += "You marked habits " + habitMarks + " times. ";
+        if (topMood) text += "The mood you picked most was " + moodName(topMood) + ". ";
+      }
+      text += "A real weekly summary needs a key later. Never put that key in this file, and never commit it.";
+      document.getElementById("coach-note").textContent = text;
+    }
+
+    document.getElementById("coach-button").addEventListener("click", writePracticeNote);
 
     if (!canSave) {
       saveNote.textContent = "This browser could not save. Your taps still work, but a refresh will clear them.";

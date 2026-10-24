@@ -6,7 +6,7 @@ A small practice page for [AI Newbie](https://www.ainewbie.org)'s Newbie to Tech
 
 You tap today's mood. You tap two or three habits. That is the whole page.
 
-You are on `step-4`. The README lists the GitHub Pages clicks. There is no build.
+You are on `step-5`. The weekly coach note is a practice stand-in. No key. No internet call.
 
 ## Work with a partner
 
@@ -83,6 +83,14 @@ The class repo's link is <https://jazken.github.io/mood-habit-tracker/>.
 Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
 
 Go deeper: <https://pages.github.com/>
+
+## The practice coach
+
+The weekly note is a stand-in. It counts saved days on this computer. It does not call the internet. There is no key in this repo.
+
+A real coach would need a secret key later. Never put a key in a file. Never commit a key. Anyone who can see the repo can copy a committed key.
+
+Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
 
 ## Open it
 
