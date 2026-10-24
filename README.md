@@ -67,14 +67,19 @@ The live page shows whatever is on `main`. On the class repo, `main` is the star
 
 You need to own the repo. On your fork, you do.
 
-1. On GitHub, open your fork.
-2. Click **Settings**. If you cannot see **Settings**, open the menu, then click **Settings**.
-3. In the left sidebar, under "Code, planning, and automation", click **Pages**.
-4. Under "Build and deployment", next to "Source", choose **Deploy from a branch**. Do not choose **GitHub Actions**.
-5. If a button says **Configure** and opens a workflow file, close that file. Come back here. Choose **Deploy from a branch**.
-6. Still under "Build and deployment", choose branch **main** and folder **/ (root)**.
-7. Click **Save**.
-8. Wait a minute. Refresh this page. GitHub shows a link.
+Use the **Settings** tab on the repo. Do not use the Settings page behind your profile picture. That page is only for verified domains. This practice page does not need a custom domain.
+
+1. Open the repo. For this class copy, that is [github.com/jazken/mood-habit-tracker](https://github.com/jazken/mood-habit-tracker). On a fork, open `https://github.com/YOUR-NAME/mood-habit-tracker`. You should see the file list.
+2. Under the repo name, in the row with **Code**, click **Settings**.
+3. If the page title is about verified domains, or the only control is **Add a domain**, you are in profile settings. Go back to the repo link in step 1. Click the **Settings** tab there.
+4. In the left sidebar, under "Code, planning, and automation", click **Pages**.
+5. Under "Build and deployment", next to "Source", choose **Deploy from a branch**. Leave **GitHub Actions** unselected.
+6. If a button says **Configure** and opens a workflow file, close that file. Come back here. Choose **Deploy from a branch**.
+7. Still under "Build and deployment", choose branch **main** and folder **/ (root)**.
+8. Click **Save**.
+9. Wait a minute. Refresh this page. GitHub shows a link.
+
+The link appears near the top of this same Pages screen, above the verified-domains section.
 
 Your link looks like `https://YOUR-NAME.github.io/mood-habit-tracker/`.
 
