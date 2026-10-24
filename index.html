@@ -159,6 +159,14 @@
       outline-offset: 3px;
     }
 
+    .note.is-saved {
+      border-left-color: var(--sage);
+      background: #e8f2ec;
+    }
+
+    #saved-days { margin: 0; padding-left: 1.2rem; }
+    #saved-days li { margin: 0.35rem 0; }
+
     footer { margin-top: 1.25rem; color: var(--muted); font-size: 0.92rem; }
     footer p { margin: 0.25rem 0; }
 
@@ -185,7 +193,7 @@
       </div>
       <p class="lede">Tap how today feels, and the habits you did.</p>
       <p class="today" id="today">Today</p>
-      <p class="flag">Starter. Nothing is saved yet.</p>
+      <p class="flag">Step 1. Saved in this browser.</p>
     </header>
 
     <main id="check-in">
@@ -211,7 +219,13 @@
         </div>
       </section>
 
-      <p class="note" id="save-note">Nothing is saved yet. Refresh the page and these taps are gone.</p>
+      <p class="note" id="save-note">Saved on this computer, in this browser. It is not sent online.</p>
+
+      <section aria-labelledby="saved-heading">
+        <h2 id="saved-heading">Saved days</h2>
+        <p class="hint">These stay after you close the page. They live only in this browser.</p>
+        <ul id="saved-days"></ul>
+      </section>
     </main>
 
     <footer>
@@ -223,13 +237,18 @@
   <script>
     // How this page works:
     // 1. The buttons are written in the HTML above.
-    // 2. This script only marks the button you tap.
-    // 3. Nothing is saved. Refresh, and the marks are gone.
-    // Saving comes in a later step.
+    // 2. This script marks the button you tap.
+    // 3. It stores today in localStorage. That is the browser's notebook
+    //    on this computer. It stays after you close the page.
+    //    It is not sent online. Clearing this site's data deletes it.
 
+    var STORAGE_KEY = "mood-habit-tracker";
     var todayText = document.getElementById("today");
+    var saveNote = document.getElementById("save-note");
+    var savedDays = document.getElementById("saved-days");
     var moodButtons = document.querySelectorAll("[data-mood]");
     var habitButtons = document.querySelectorAll("[data-habit]");
+    var canSave = storageWorks();
 
     // Show today's date in plain words, such as "Saturday, 24 October 2026".
     todayText.textContent = new Date().toLocaleDateString(undefined, {
@@ -239,7 +258,151 @@
       day: "numeric"
     });
 
-    // A check mark is added in the script, so the habit names stay easy to read.
+    // Some private windows block the notebook. Check once, without leaving a trace.
+    function storageWorks() {
+      try {
+        localStorage.setItem(STORAGE_KEY + "-test", "ok");
+        localStorage.removeItem(STORAGE_KEY + "-test");
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    // A day key looks like 2026-10-24. It uses your local date.
+    function dateKey(date) {
+      var month = String(date.getMonth() + 1).padStart(2, "0");
+      var day = String(date.getDate()).padStart(2, "0");
+      return date.getFullYear() + "-" + month + "-" + day;
+    }
+
+    function todayKey() {
+      return dateKey(new Date());
+    }
+
+    // Read the notebook. If it is empty or broken, start fresh.
+    function loadLog() {
+      if (!canSave) return {};
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return {};
+        var parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") return {};
+        return parsed;
+      } catch (error) {
+        return {};
+      }
+    }
+
+    // JSON is a text form of the saved days.
+    function saveLog(log) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(log));
+    }
+
+    // The check mark is a separate node. Read only the name.
+    function buttonLabel(button) {
+      var text = "";
+      button.childNodes.forEach(function (node) {
+        if (node.nodeType === Node.TEXT_NODE) text += node.textContent;
+      });
+      return text.replace(/\s+/g, " ").trim();
+    }
+
+    function moodName(mood) {
+      var button = document.querySelector('[data-mood="' + mood + '"]');
+      return button ? buttonLabel(button) : mood;
+    }
+
+    function habitName(id) {
+      var button = document.querySelector('[data-habit="' + id + '"]');
+      return button ? buttonLabel(button) : id;
+    }
+
+    function readForm() {
+      var mood = null;
+      moodButtons.forEach(function (button) {
+        if (button.getAttribute("aria-pressed") === "true") {
+          mood = button.getAttribute("data-mood");
+        }
+      });
+      var habits = [];
+      habitButtons.forEach(function (button) {
+        if (button.getAttribute("aria-pressed") === "true") {
+          habits.push(button.getAttribute("data-habit"));
+        }
+      });
+      return { mood: mood, habits: habits };
+    }
+
+    function writeForm(entry) {
+      moodButtons.forEach(function (button) {
+        var on = entry && entry.mood === button.getAttribute("data-mood");
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      var picked = (entry && entry.habits) || [];
+      habitButtons.forEach(function (button) {
+        var on = picked.indexOf(button.getAttribute("data-habit")) !== -1;
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+    }
+
+    function prettyDate(key) {
+      var parts = key.split("-");
+      var date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      return date.toLocaleDateString(undefined, {
+        weekday: "long",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function entrySentence(entry) {
+      var mood = entry.mood ? moodName(entry.mood) : "No mood";
+      var names = [];
+      (entry.habits || []).forEach(function (id) {
+        names.push(habitName(id));
+      });
+      var habits = names.length ? names.join(", ") : "no habits marked";
+      return mood + ". " + habits + ".";
+    }
+
+    // textContent shows words as words. The page does not treat them as code.
+    function showSavedDays() {
+      while (savedDays.firstChild) savedDays.removeChild(savedDays.firstChild);
+      var log = loadLog();
+      var keys = Object.keys(log).filter(function (key) {
+        return /^\d{4}-\d{2}-\d{2}$/.test(key);
+      });
+      keys.sort();
+      keys.reverse();
+      if (!keys.length) {
+        var empty = document.createElement("li");
+        empty.textContent = "Nothing saved yet. Tap a mood, and today will show up here.";
+        savedDays.appendChild(empty);
+        return;
+      }
+      keys.slice(0, 14).forEach(function (key) {
+        var item = document.createElement("li");
+        item.textContent = prettyDate(key) + ": " + entrySentence(log[key]);
+        savedDays.appendChild(item);
+      });
+    }
+
+    function saveToday() {
+      if (!canSave) {
+        saveNote.textContent = "This browser could not save. Your taps still work, but a refresh will clear them.";
+        return;
+      }
+      var log = loadLog();
+      log[todayKey()] = readForm();
+      saveLog(log);
+      saveNote.textContent = "Saved just now on this computer. It is not sent online.";
+      saveNote.classList.add("is-saved");
+      showSavedDays();
+    }
+
+    // A check mark is added here, so the habit names stay easy to edit.
     // aria-pressed tells assistive tools whether a button is on.
     function addTick(button) {
       var tick = document.createElement("span");
@@ -257,6 +420,7 @@
           other.setAttribute("aria-pressed", "false");
         });
         button.setAttribute("aria-pressed", "true");
+        saveToday();
       });
     });
 
@@ -266,8 +430,16 @@
         // A habit can be on or off. Tap again to turn it off.
         var on = button.getAttribute("aria-pressed") === "true";
         button.setAttribute("aria-pressed", on ? "false" : "true");
+        saveToday();
       });
     });
+
+    if (!canSave) {
+      saveNote.textContent = "This browser could not save. Your taps still work, but a refresh will clear them.";
+    } else {
+      writeForm(loadLog()[todayKey()]);
+      showSavedDays();
+    }
   </script>
 </body>
 </html>
