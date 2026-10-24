@@ -167,8 +167,60 @@
     #saved-days { margin: 0; padding-left: 1.2rem; }
     #saved-days li { margin: 0.35rem 0; }
 
+    /* The week chart is plain HTML. No library. A longer bar is a brighter mood. */
+    .chart {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: 3.4rem minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .day-name { font-size: 0.92rem; font-weight: 600; }
+
+    .today-tag {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--sage);
+    }
+
+    .track {
+      display: block;
+      height: 0.85rem;
+      background: #efe6d8;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .fill.mood-low { width: 28%; background: #8d5a4a; }
+    .fill.mood-okay { width: 52%; background: #a6843d; }
+    .fill.mood-good { width: 76%; background: #3d7a5a; }
+    .fill.mood-great { width: 100%; background: #1e4636; }
+    .fill.mood-none { width: 0.45rem; background: #d5cbbd; }
+
+    .mood-word { font-size: 0.95rem; }
+
     footer { margin-top: 1.25rem; color: var(--muted); font-size: 0.92rem; }
     footer p { margin: 0.25rem 0; }
+
+    @media (max-width: 22rem) {
+      .chart-row { grid-template-columns: 3rem minmax(0, 1fr); }
+      .mood-word { grid-column: 2; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; }
@@ -193,7 +245,7 @@
       </div>
       <p class="lede">Tap how today feels, and the habits you did.</p>
       <p class="today" id="today">Today</p>
-      <p class="flag">Step 1. Saved in this browser.</p>
+      <p class="flag">Step 2. A chart of the last 7 days.</p>
     </header>
 
     <main id="check-in">
@@ -219,7 +271,13 @@
         </div>
       </section>
 
-      <p class="note" id="save-note">Saved on this computer, in this browser. It is not sent online.</p>
+      <p class="note" id="save-note" aria-live="polite">Saved on this computer, in this browser. It is not sent online.</p>
+
+      <section aria-labelledby="week-heading">
+        <h2 id="week-heading">This week</h2>
+        <p class="hint">Each row is one day. A longer bar is a brighter mood.</p>
+        <ul class="chart" id="week-chart"></ul>
+      </section>
 
       <section aria-labelledby="saved-heading">
         <h2 id="saved-heading">Saved days</h2>
@@ -241,11 +299,13 @@
     // 3. It stores today in localStorage. That is the browser's notebook
     //    on this computer. It stays after you close the page.
     //    It is not sent online. Clearing this site's data deletes it.
+    // 4. The week chart is drawn from those saved days. No library.
 
     var STORAGE_KEY = "mood-habit-tracker";
     var todayText = document.getElementById("today");
     var saveNote = document.getElementById("save-note");
     var savedDays = document.getElementById("saved-days");
+    var weekChart = document.getElementById("week-chart");
     var moodButtons = document.querySelectorAll("[data-mood]");
     var habitButtons = document.querySelectorAll("[data-habit]");
     var canSave = storageWorks();
@@ -380,12 +440,75 @@
         var empty = document.createElement("li");
         empty.textContent = "Nothing saved yet. Tap a mood, and today will show up here.";
         savedDays.appendChild(empty);
-        return;
+      } else {
+        keys.slice(0, 14).forEach(function (key) {
+          var item = document.createElement("li");
+          item.textContent = prettyDate(key) + ": " + entrySentence(log[key]);
+          savedDays.appendChild(item);
+        });
       }
-      keys.slice(0, 14).forEach(function (key) {
+      drawWeek();
+    }
+
+    // The last 7 days, oldest first. Noon avoids a daylight-saving skip.
+    function lastSevenDates() {
+      var days = [];
+      var index;
+      for (index = 6; index >= 0; index -= 1) {
+        var date = new Date();
+        date.setHours(12, 0, 0, 0);
+        date.setDate(date.getDate() - index);
+        days.push(date);
+      }
+      return days;
+    }
+
+    // Draw the week with plain divs. No chart library, and no internet.
+    function drawWeek() {
+      while (weekChart.firstChild) weekChart.removeChild(weekChart.firstChild);
+      var log = loadLog();
+      var today = todayKey();
+      lastSevenDates().forEach(function (date) {
+        var key = dateKey(date);
+        var entry = log[key];
+        var mood = entry && entry.mood ? entry.mood : "";
+        var word = mood ? moodName(mood) : "No check-in";
+        var fullDate = date.toLocaleDateString(undefined, {
+          weekday: "long",
+          day: "numeric",
+          month: "long"
+        });
+        var shortDay = date.toLocaleDateString(undefined, { weekday: "short" });
+
         var item = document.createElement("li");
-        item.textContent = prettyDate(key) + ": " + entrySentence(log[key]);
-        savedDays.appendChild(item);
+        item.className = "chart-row";
+        item.setAttribute("aria-label", fullDate + ": " + word);
+
+        var day = document.createElement("span");
+        day.className = "day-name";
+        day.textContent = shortDay;
+        if (key === today) {
+          var tag = document.createElement("span");
+          tag.className = "today-tag";
+          tag.textContent = "Today";
+          day.appendChild(tag);
+        }
+
+        var track = document.createElement("span");
+        track.className = "track";
+        track.setAttribute("aria-hidden", "true");
+        var fill = document.createElement("span");
+        fill.className = "fill " + (mood ? "mood-" + mood : "mood-none");
+        track.appendChild(fill);
+
+        var label = document.createElement("span");
+        label.className = "mood-word";
+        label.textContent = word;
+
+        item.appendChild(day);
+        item.appendChild(track);
+        item.appendChild(label);
+        weekChart.appendChild(item);
       });
     }
 
@@ -438,8 +561,8 @@
       saveNote.textContent = "This browser could not save. Your taps still work, but a refresh will clear them.";
     } else {
       writeForm(loadLog()[todayKey()]);
-      showSavedDays();
     }
+    showSavedDays();
   </script>
 </body>
 </html>

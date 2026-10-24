@@ -4,7 +4,7 @@ A small practice page for [AI Newbie](https://www.ainewbie.org)'s Newbie to Tech
 
 You tap today's mood. You tap two or three habits. That is the whole page.
 
-You are on `step-1`. Check-ins are saved in this browser.
+You are on `step-2`. Check-ins are saved, and the last 7 days show as a chart.
 
 ## Open it
 
@@ -15,7 +15,7 @@ You do not need to install anything. There is no build step.
 3. Double-click `index.html`.
 4. It opens in your browser.
 
-On this branch, the browser saves your check-in. Refresh the page. Your taps should still be there. They stay on this computer only.
+On this branch, the browser saves your check-in and draws the last 7 days. Refresh the page. Your taps should still be there. They stay on this computer only.
 
 ## Fork this repo
 
