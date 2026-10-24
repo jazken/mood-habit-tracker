@@ -143,6 +143,10 @@ Then double-click `index.html` again.
 
 Older Git has no `git switch`. Use `git checkout step-2` instead.
 
+Git may warn that the name is ambiguous. The branch and the tag share a name. The switch still opens the branch.
+
+To send commits to GitHub, run `git push` with no branch name. `git push origin HEAD` also works. `git push origin step-2` does not, because that name is both a branch and a tag.
+
 Use the branch in everyday practice. The tag is a fixed bookmark on the same save point.
 
 ## The stages
