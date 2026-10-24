@@ -14,13 +14,13 @@ This is the partner exercise from the Step 4 lesson, "Git part 2: work together"
 
 This is not the Step 3 lesson. The Step 3 lesson, "Git part 1: save points you control", is solo. You make a commit. You can try a branch. Do that lesson first if you have not.
 
-Lesson for the Step 3 solo exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 3 solo exercise: <https://www.ainewbie.org/new-to-code/git-save-points>
 
-Lesson for the Step 4 partner exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 4 partner exercise: <https://www.ainewbie.org/new-to-code/git-work-together>
 
 You need a partner, and a free GitHub account each: <https://github.com>
 
-1. **Partner A** forks this repo. That fork is the one shared copy. Then Partner A invites Partner B: **Settings → Collaborators**. Partner B works in that same fork, not a second fork.
+1. **Partner A** forks this repo and unticks **Copy the main branch only**, so `step-3` comes along. That fork is the one shared copy. Then Partner A invites Partner B: **Settings → Collaborators**. Partner B works in that same fork, not a second fork.
 2. Switch the branch menu to `step-3`. **Each of you** makes your own branch from `step-3`. Call them `a-title` and `b-title`.
 3. **Each of you** edits the **same first line** of this README on your own branch, in different ways. Commit.
 4. **Each of you** edits the habits list in `index.html`. The habits list is the three buttons under **Habits**: `Drink water`, `Take a walk`, and `Read a page`. Change those names in different ways. Leave the tags in place. Commit.
@@ -49,7 +49,7 @@ Edit a file:
 Open a pull request:
 
 1. Click **Compare & pull request** if GitHub offers it. Or click **Pull requests**, then **New pull request**.
-2. Set the base to `main` and the compare branch to yours.
+2. Set the base repository to your own fork. Do not leave it as `jazken/mood-habit-tracker`. Set the base branch to `main` and the compare branch to yours.
 3. Click **Create pull request**.
 
 Merge, then fix the conflict:
@@ -85,7 +85,9 @@ Your link looks like `https://YOUR-NAME.github.io/mood-habit-tracker/`.
 
 The class repo's link is <https://jazken.github.io/mood-habit-tracker/>.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+If the Step 5 lesson asks you to merge a branch called `my-save`, the base repository is your fork, not `jazken/mood-habit-tracker`.
+
+Lesson: <https://www.ainewbie.org/new-to-code/put-it-online>
 
 Go deeper: <https://pages.github.com/>
 
@@ -107,9 +109,12 @@ A fork is your own copy on GitHub. Do your practice there, not on this copy.
 1. Sign in at [GitHub](https://github.com).
 2. Open [github.com/jazken/mood-habit-tracker](https://github.com/jazken/mood-habit-tracker).
 3. Click **Fork**.
-4. Click **Create fork**.
+4. Untick **Copy the main branch only**. The step branches need to come along.
+5. Click **Create fork**.
 
 Your copy lives at `https://github.com/YOUR-NAME/mood-habit-tracker`.
+
+Open pull requests against that fork. The base repository must be `YOUR-NAME/mood-habit-tracker`. It must never be `jazken/mood-habit-tracker`. That includes the partner pull requests in the Step 4 lesson, and the merge of `my-save` in the Step 5 lesson.
 
 To put that copy on your computer:
 
@@ -148,27 +153,23 @@ Use the branch in everyday practice. The tag is a fixed bookmark on the same sav
 
 ## The stages
 
-Lesson pages are not published yet.
-
-**TODO:** each lesson link below is a placeholder. Use <https://www.ainewbie.org> until the real lesson URL is ready.
-
 ### `main` — starter
 
 Tap today's mood and the habit buttons. Nothing is saved yet.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/pick-your-tool>
 
 ### `step-1` — the day is saved
 
 The page stores your check-in in this browser and shows it back. A refresh keeps it. It is not sent online.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/git-save-points>
 
 ### `step-2` — a week chart
 
 The last 7 days show as a simple chart. There is no chart library. The drawing is in `index.html`.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/first-real-code>
 
 ### `step-3` — practice conflict
 
@@ -178,9 +179,9 @@ This setup is for the **Step 4 lesson**, "Git part 2: work together". It is not 
 
 The **Step 3 lesson**, "Git part 1: save points you control", is solo. You make a commit. You can try a branch. There is no partner and no conflict.
 
-Lesson for the Step 3 solo exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 3 solo exercise: <https://www.ainewbie.org/new-to-code/git-save-points>
 
-Lesson for the Step 4 partner exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 4 partner exercise: <https://www.ainewbie.org/new-to-code/git-work-together>
 
 ### `step-4` — GitHub Pages
 
@@ -188,13 +189,13 @@ This branch tells you how to publish the `main` branch from the repo root. You u
 
 This is the track's "your first web page, online" lesson.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/put-it-online>
 
 ### `step-5` — practice coach
 
 An optional weekly note. It is a stub. There is no key and no network call. A real coach would need a key later. Never commit a key.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/small-ai-build>
 
 ## Which exercise is which
 
