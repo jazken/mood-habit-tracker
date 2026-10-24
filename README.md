@@ -1,5 +1,7 @@
 # Daily Mood and Habit Tracker
 
+Start here: https://www.ainewbie.org/new-to-code
+
 A small practice page for [AI Newbie](https://www.ainewbie.org)'s Newbie to Tech track.
 
 You tap today's mood. You tap two or three habits. That is the whole page.
@@ -24,9 +26,12 @@ A fork is your own copy on GitHub. Do your practice there, not on this copy.
 1. Sign in at [GitHub](https://github.com).
 2. Open [github.com/jazken/mood-habit-tracker](https://github.com/jazken/mood-habit-tracker).
 3. Click **Fork**.
-4. Click **Create fork**.
+4. Untick **Copy the main branch only**. The step branches need to come along.
+5. Click **Create fork**.
 
 Your copy lives at `https://github.com/YOUR-NAME/mood-habit-tracker`.
+
+Open pull requests against that fork. The base repository must be `YOUR-NAME/mood-habit-tracker`. It must never be `jazken/mood-habit-tracker`. That includes the partner pull requests in the Step 4 lesson, and the merge of `my-save` in the Step 5 lesson.
 
 To put that copy on your computer:
 
@@ -65,27 +70,23 @@ Use the branch in everyday practice. The tag is a fixed bookmark on the same sav
 
 ## The stages
 
-Lesson pages are not published yet.
-
-**TODO:** each lesson link below is a placeholder. Use <https://www.ainewbie.org> until the real lesson URL is ready.
-
 ### `main` — starter
 
 Tap today's mood and the habit buttons. Nothing is saved yet.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/pick-your-tool>
 
 ### `step-1` — the day is saved
 
 The page stores your check-in in this browser and shows it back. A refresh keeps it. It is not sent online.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/git-save-points>
 
 ### `step-2` — a week chart
 
 The last 7 days show as a simple chart. There is no chart library. The drawing is in `index.html`.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/first-real-code>
 
 ### `step-3` — practice conflict
 
@@ -95,9 +96,9 @@ This setup is for the **Step 4 lesson**, "Git part 2: work together". It is not 
 
 The **Step 3 lesson**, "Git part 1: save points you control", is solo. You make a commit. You can try a branch. There is no partner and no conflict.
 
-Lesson for the Step 3 solo exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 3 solo exercise: <https://www.ainewbie.org/new-to-code/git-save-points>
 
-Lesson for the Step 4 partner exercise: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson for the Step 4 partner exercise: <https://www.ainewbie.org/new-to-code/git-work-together>
 
 ### `step-4` — GitHub Pages
 
@@ -105,13 +106,13 @@ This branch tells you how to publish the `main` branch from the repo root. You u
 
 This is the track's "your first web page, online" lesson.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/put-it-online>
 
 ### `step-5` — practice coach
 
 An optional weekly note. It is a stub. There is no key and no network call. A real coach would need a key later. Never commit a key.
 
-Lesson: **TODO** (not published yet) — <https://www.ainewbie.org>
+Lesson: <https://www.ainewbie.org/new-to-code/small-ai-build>
 
 ## Which exercise is which
 
